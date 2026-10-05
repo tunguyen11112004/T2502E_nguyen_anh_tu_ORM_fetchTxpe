@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kệ sách</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main>
+    <header>
+        <p class="brand">Nhà sách FP</p>
+        <h1>Kệ sách</h1>
+        <p class="note">Danh mục chỉ lấy tên sách và tác giả. Tóm tắt (1-1) và thể loại (N-N) để LAZY, không tải ở trang này.</p>
+    </header>
+    <ul class="cards">
+        <li th:each="book : ${books}">
+            <a th:href="@{/books/{id}(id=${book.id})}" th:text="${book.title}">Tên sách</a>
+            <p>
+                <a th:href="@{/authors/{id}(id=${book.authorId})}" th:text="${book.authorName}">Tác giả</a>
+                · <span th:text="${book.isbn}">isbn</span>
+            </p>
+            <strong th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT')} + ' đ'">0</strong>
+        </li>
+    </ul>
+</main>
+</body>
+</html>

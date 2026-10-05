@@ -1,0 +1,25 @@
+---
+description: Quy ước ORM của bài Book — quan hệ và FetchType
+alwaysApply: true
+---
+
+# ORM Book
+
+Domain nằm trong `org.fp.bt_ql_muon_sach`. Đừng thêm entity ngoài Author, Book, BookDetail, Category trừ khi bài mới yêu cầu.
+
+## FetchType
+
+- `Book.author` (`@ManyToOne`): `EAGER`. Danh sách sách luôn hiện tên tác giả; quan hệ đơn.
+- `Author.books` (`@OneToMany`): `LAZY`. Không kéo cả danh sách sách khi chỉ cần tác giả.
+- `Book.detail` (`@OneToOne`, phía có FK `detail_id`, `optional = false`): `LAZY`.
+- `BookDetail.book` (`@OneToOne`, `mappedBy`): `EAGER`. Không đặt LAZY ở phía `mappedBy`.
+- `Book.categories` và `Category.books` (`@ManyToMany`): `LAZY`. Cấm `EAGER` trên collection.
+
+## Cách xử lý
+
+- Giữ `spring.jpa.open-in-view=false`.
+- Controller chỉ nhận DTO. Map DTO trong method `@Transactional`.
+- Collection LAZY thì dùng `join fetch` trong repository, không khởi tạo trong view.
+- Không `join fetch` hai collection trong cùng một câu query.
+- Trang chi tiết sách: một query cho author + detail, query riêng cho categories.
+---

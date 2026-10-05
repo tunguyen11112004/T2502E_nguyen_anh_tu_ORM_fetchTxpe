@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${book.title}">Sách</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main>
+    <p><a th:href="@{/books}">← Kệ sách</a></p>
+    <header>
+        <p class="brand">Chi tiết · 1-1 và N-N đã được join fetch trong transaction</p>
+        <h1 th:text="${book.title}">Tên sách</h1>
+        <p>
+            <a th:href="@{/authors/{id}(id=${book.authorId})}" th:text="${book.authorName}">Tác giả</a>
+            · <span th:text="${book.isbn}">isbn</span>
+            · <span th:text="${book.language}">ngôn ngữ</span>
+            · <span th:text="${book.pageCount} + ' trang'">0 trang</span>
+        </p>
+    </header>
+    <p class="summary" th:text="${book.summary}">Tóm tắt</p>
+    <p class="price" th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT')} + ' đ'">0</p>
+    <ul class="tags">
+        <li th:each="category : ${book.categories}" th:text="${category}">Thể loại</li>
+    </ul>
+</main>
+</body>
+</html>

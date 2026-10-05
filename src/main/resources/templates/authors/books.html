@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${author.name}">Tác giả</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main>
+    <p><a th:href="@{/books}">← Kệ sách</a></p>
+    <header>
+        <p class="brand">1-N · join fetch sách của tác giả</p>
+        <h1 th:text="${author.name}">Tên</h1>
+        <p th:text="${author.email}">email</p>
+    </header>
+    <ul class="cards">
+        <li th:each="book : ${author.books}">
+            <a th:href="@{/books/{id}(id=${book.id})}" th:text="${book.title}">Sách</a>
+            <p th:text="${book.isbn}">isbn</p>
+        </li>
+    </ul>
+</main>
+</body>
+</html>
